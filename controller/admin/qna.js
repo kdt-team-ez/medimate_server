@@ -26,7 +26,7 @@ export async function SearchQnaOne(req, res, next) {
 };
 
 export async function MakeQna(req, res, next) {
-    const uNum = req.params.id
+    const uNum = req.U_NUM
     const { Q_TITLE } = req.body
 
     const result = await qnaRepository.create({
@@ -41,10 +41,14 @@ export async function MakeQna(req, res, next) {
 }
 
 export async function ChangeQna(req, res, next) {
-    const a = req.params.id
+    const Q_NUM = req.params.id
     const { Q_CONTENT } = req.body
-
-    const result = await qnaRepository.update(a,Q_CONTENT)
+    const Q_ANSWER = true
+    const validator = await qnaRepository.findByNum(Q_NUM)
+    if (!validator){
+        res.status(402).json({message: `${Q_NUM}은 없는 고유 번호입니다.`})
+    }else{
+    const result = await qnaRepository.update(Q_NUM ,Q_CONTENT,Q_ANSWER)
     
     if (!result) {
         res.status(402).json(result)
@@ -52,14 +56,20 @@ export async function ChangeQna(req, res, next) {
         res.status(200).json(result)
     }
 }
+}
 
 export async function DeleteQna(req,res,next){
-    const qNum = req.params.id
-    const result = await qnaRepository.remove(qNum)
+    const Q_NUM = req.params.id
+    const validator = await qnaRepository.findByNum(Q_NUM)
+    if (!validator){
+        res.status(402).json({message: `${Q_NUM}은 없는 고유 번호입니다.`})
+    }else{
+    const result = await qnaRepository.remove(Q_NUM)
 
     if (!result) {
         res.status(402).json(result)
     } else {
         res.status(200).json(result)
     }
+}
 }

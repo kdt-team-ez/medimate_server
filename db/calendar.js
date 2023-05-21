@@ -36,6 +36,5 @@ export const Calendar = sequelize.define(
     { timestamps: false, freezeTableName: true }
 );
 
-// 서로 num컬럼으로 1대1 참조 할 수 있도록 외래키를 설정
 User.hasOne(Calendar, { foreignKey: 'U_NUM' });
 Calendar.belongsTo(User, { foreignKey: 'U_NUM' });

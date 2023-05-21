@@ -8,7 +8,7 @@ export async function join(user) {
 }
 
 export async function createUser(user) {
-    return User.create(user).then((data) => data.dataValues.id);
+    return User.create(user).then((data) => data.dataValues.U_NUM);
 }
 
 export async function findById(U_ID) {

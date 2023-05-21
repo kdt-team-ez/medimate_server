@@ -8,9 +8,13 @@ import adminRouter from './router/admin/admin.js';
 import mainRouter from './router/main/main.js';
 
 const app = express();
+const corsOprtion = {
+    origin: config.cors.allowedOrigin,
+    optionsSuccessStatus: 200
+}
 
 app.use(express.json());
-app.use(cors());
+app.use(cors(corsOprtion));
 app.use(morgan('tiny'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -31,5 +35,5 @@ app.use((error, req, res, next) => {
 // 실행
 sequelize.sync().then(() => {
     app.listen(config.host.port);
-    console.log('Sequelize 연결 상태 양호')
+    console.log('Sequelize 연결 상태 양호');
 });

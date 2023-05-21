@@ -1,5 +1,5 @@
 import * as dataRepository from '../../data/admin/announcement.js';
-// merge test
+
 
 // 생성 (어디가 문제?)
 export async function createAnnounce(req, res, next){
@@ -49,26 +49,22 @@ export async function searchAnnounceByTitle(req,res){
 
 // 전체 출력 (페이지네이션 기능 추가)
 export async function getAllAnnounce(req,res){
-    const U_NUM = req.U_NUM;
-    const page  = req.query.page || 1
-    const { A_TITLE } = req.body
-    const datas = await (A_TITLE 
-        ? dataRepository.getByUNum(U_NUM)
-        : dataRepository.getAll(page))
-    if (!datas) {
+    const U_NUM  = req.query.U_NUM || req.U_NUM;
+    const found = await dataRepository.getByUNum(U_NUM)
+    if (!found) {
         res.status(400).json({message: `공지사항 전체출력오류`})
     } else {
-        res.status(200).json(datas)
+        res.status(200).json(found)
     }
 };
 
 // 수정
 export async function updateAnnounce(req, res){
-    const A_NUM = req.params.id;
+    const id = req.params.id;
     const {A_TITLE,A_CONTENT} = req.body;
-    const found = await dataRepository.getByAnnounceNum(A_NUM);
+    const found = await dataRepository.getByAnnounceNum(id);
     if (found) {
-        const result = await dataRepository.update(A_NUM, {A_TITLE, A_CONTENT});
+        const result = await dataRepository.update(id, {A_TITLE, A_CONTENT});
         res.status(200).json(result)
     } else {
         res.status(402).json({message: `공지사항 수정오류`})
@@ -78,7 +74,7 @@ export async function updateAnnounce(req, res){
 
 // 삭제
 export async function deleteAnnounce(req,res){
-    const A_NUM = req.params.id;
+    const A_NUM = req.query.A_NUM;
     const found = await dataRepository.getByAnnounceNum(A_NUM);
 
     if(found){

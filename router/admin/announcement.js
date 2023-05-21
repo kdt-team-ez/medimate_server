@@ -15,6 +15,6 @@ router.get('/', isAuth,AnnounceController.getAllAnnounce);
 
 router.put('/:id', isAuth,AnnounceController.updateAnnounce);
 
-router.delete('/:id',isAuth, AnnounceController.deleteAnnounce);
+router.delete('/',isAuth, AnnounceController.deleteAnnounce);
 
 export default router;

@@ -18,7 +18,7 @@ export const isAuth = async (req, res, next) => { // 인증의 여부를 알려�
                 }
                 const user = await UserRepository.getByUNum(decoded.id);
                 if (!user) {
-                    return res.status(403).json(AUTH_ERROR);
+                    return res.status(403).json(decoded);
                 }
                 req.U_NUM = user.U_NUM;
                 next(); // 이후 위에서 설정한 isAuth를 router>auth.js의 me와 authController.me 사이에 넣음.

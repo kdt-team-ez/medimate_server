@@ -1,14 +1,23 @@
 import express from 'express';
 import qnaRouter from './qna.js'
-import {isAuth} from '../../middleware/token.js'
-
+import shareRouter from './share.js'
+import withdrawalRouter from './withdrawal.js'
+import pwRouter from './pw.js'
+import infoRouter from './info.js'
+import calendarRouter from './calendar.js'
 
 const router = express.Router();
 
-router.use('/qna',qnaRouter)
+router.use('/qna',qnaRouter);
+router.use('/share', shareRouter);
+router.use('/withdrawal',withdrawalRouter)
+router.use('/pw',pwRouter)
+router.use('/info',infoRouter)
+router.use('/calendar',calendarRouter)
+
 
 router.get('/',(req,res)=>{
     res.status(200).json({message:"로그인 페이지 이동"})
-})
+});
 
-export default router
+export default router;
